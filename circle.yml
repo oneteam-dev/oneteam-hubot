@@ -1,0 +1,19 @@
+machine:
+  timezone: Asia/Tokyo
+  node:
+    version: 0.10.28
+  environment:
+    MOCHA_REPORTER: spec
+database:
+  override:
+dependencies:
+  cache_directories:
+    - "node_modules"
+test:
+  override:
+    - npm test
+deployment:
+  production:
+    branch: master
+    heroku:
+      appname: oneteam-hubot
