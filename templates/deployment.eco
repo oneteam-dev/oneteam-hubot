@@ -1,0 +1,18 @@
+<%= @env %> deployment
+<%= @hr @env.length + 11, '=' %>
+
+Created by [<%= @envelope.user.name %>] in [<%= @envelope.room %>] Slack room.
+
+Continue by clicking _Merge pull request_ button, then deployment build will start in [CircleCI].
+
+After deployment
+----------------
+
+Please check after operation check.
+
+<% for k, v of @issues: %>- [ ] <%= v.title %><% if v.users.length > 0: %> (@<%= v.users.join ', @' %>)<% end %><% end: %>
+<% for k, v of @noIssueCommits: %>- [ ] <%= v.title %><% if v.users.length > 0: %> (@<%= v.users.join ', @' %>)<% end %><% end: %>
+
+[CircleCI]: <%= @ciURL %>
+[<%= @envelope.user.name %>]: https://one-team.slack.com/messages/<%= @envelope.room.replace /^#/, '' %>/team/<%= @envelope.user.name %>/
+[<%= @envelope.room %>]: https://one-team.slack.com/messages/<%= @envelope.room.replace /^#/, '' %>/
