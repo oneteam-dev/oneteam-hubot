@@ -9,41 +9,26 @@
 #   hubot deploy <repo> to <env> - deploy <repo> to the specified environment
 
 require 'date-utils'
-GitHub = require 'github'
 eco    = require 'eco'
 fs     = require 'fs'
 path   = require 'path'
 
 module.exports = (robot) ->
 
-  token = process.env.HUBOT_GITHUB_TOKEN
-  github = null
   try
     template = eco.compile fs.readFileSync(path.resolve(__dirname, '..', 'templates/deployment.eco'), 'utf-8')
   catch e
     console.error e
     return
 
-  if !token
-    return robot.logger.error """
-      deployment is not loaded due to missing configuration!
-      #{__filename}
-      HUBOT_GITHUB_TOKEN: #{token}
-    """
-
-  robot.getGitHubApi = getGitHubApi = ->
-    github ||= new GitHub version: '3.0.0'
-    github.authenticate type: 'oauth', token: token
-    github
-
   compareCommits = (param, callback) ->
-    getGitHubApi().repos.compareCommits param, callback
+    robot.getGitHubApi().repos.compareCommits param, callback
 
   getIssue = (param, callback) ->
-    getGitHubApi().issues.getRepoIssue param, callback
+    robot.getGitHubApi().issues.getRepoIssue param, callback
 
   createPullRequest = (param, callback) ->
-    getGitHubApi().pullRequests.create param, callback
+    robot.getGitHubApi().pullRequests.create param, callback
 
   hr = (length, char = '-') ->
     ret = ''
@@ -102,9 +87,9 @@ module.exports = (robot) ->
         commitMessage = commit?.commit?.message
         continue if ignoreRE.test commitMessage
         users = []
-        if login = commit?.author?.login
+        if (login = commit?.author?.login) and users.indexOf(login) == -1
           users.push login
-        if login = commit?.committer?.login
+        if (login = commit?.committer?.login) and users.indexOf(login) == -1
           users.push login
 
         unless commit.parents.length > 1
@@ -115,6 +100,8 @@ module.exports = (robot) ->
             n = i.replace /[^\d]/g, ''
             issues[n] ||= { users: [] }
             issues[n].users = issues[n].users.concat users
+            issues[n].users = issues[n].users.filter (e, i) ->
+              users.indexOf(e) == i
             if remainingIssueNums.indexOf(n) == -1
               remainingIssueNums.push n
          else
@@ -129,9 +116,13 @@ module.exports = (robot) ->
         {envelope} = msg
         title = "#{new Date().toYMD('.')} #{env} deployment by #{envelope.user.name}"
         ciURL = "https://circleci.com/gh/#{user}/#{repo}/tree/#{encodeURIComponent base}"
+        checkList = []
+        createListItem = (v) ->
+          "- [ ] #{v.title} #{ if v.users?.length > 0 then "(@#{v.users.join(', @')})" else '' }"
+        checkList.push createListItem v for k, v of issues
+        checkList.push createListItem v for v in noIssueCommits
         body = template {
-          noIssueCommits
-          issues
+          checkList
           env
           user
           repo

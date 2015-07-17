@@ -22,6 +22,7 @@ describe 'deployment', ->
     robot = new Robot null, 'mock-adapter', yes, 'TestHubot'
     robot.adapter.on 'connected', ->
       robot.loadFile path.resolve('.', 'scripts'), 'deployment.coffee'
+      robot.loadFile path.resolve('.', 'scripts'), 'github-api.coffee'
       robot.loadExternalScripts ['hubot-help']
       user = robot.brain.userForId '1', {
         name: 'ngs'
