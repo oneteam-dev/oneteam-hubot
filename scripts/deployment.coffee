@@ -2,7 +2,6 @@
 #   deploy <repo> to <env>
 #
 # Configuration:
-#   HUBOT_GITHUB_TOKEN (required)
 #   HUBOT_GITHUB_ORG
 #
 # Commands:
@@ -36,15 +35,6 @@ module.exports = (robot) ->
       ret += char
     ret
 
-  respondError = (msg, err) ->
-    if err?.message
-      errmsg = err.message
-      try
-        errmsg = JSON.parse(errmsg)?.message
-      msg.reply errmsg
-      return yes
-    no
-
   robot.respond /\s*deploy\s+([^\s]+)\s+to\s+([^\s]+)/, (msg) ->
     [__, repo, env] = msg.match
     [user, repo] = repo.split '/' if repo.indexOf('/') != -1
@@ -61,7 +51,7 @@ module.exports = (robot) ->
       return
 
     compareCommits { user, repo, base, head }, (err, data) ->
-      return if respondError msg, err
+      return if robot.respondError msg, err
       {commits} = data
       unless commits?.length > 0
         msg.reply "#{env} environment is up to date."
@@ -76,7 +66,7 @@ module.exports = (robot) ->
           return
         number = do remainingIssueNums.shift
         getIssue { repo, user, number }, (err, data) ->
-          return if respondError msg, err
+          return if robot.respondError msg, err
           issues[number].title = "##{number} #{data.title}"
           getIssues callback
 
@@ -139,7 +129,7 @@ module.exports = (robot) ->
           user
           repo
         }, (err, data) ->
-          return if respondError msg, err
+          return if robot.respondError msg, err
           msg.send """
           Created pull request #{data.html_url}
           Continue deployment by merging manually or close to cancel.
