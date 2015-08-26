@@ -18,6 +18,11 @@ describe 'author-check', ->
     body = fs.readFileSync path.resolve(__dirname, 'fixtures', "issue-body-#{fixture}.md"), 'utf8'
     sinon.stub(robot.getGitHubApi().pullRequests, 'getAll').callsArgWith 1, null, [
       {
+        body: 'hoge'
+        title: 'hotfix hoge'
+        html_url: 'https://github.com/oneteam-dev/oneteam-api/pull/1205'
+      }
+      {
         body: body
         title: '2014.06.17 staging deployment by ngs'
         html_url: 'https://github.com/oneteam-dev/oneteam-api/pull/1206'
