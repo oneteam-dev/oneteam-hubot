@@ -33,7 +33,7 @@ module.exports = (robot) ->
           base
           sort: 'created'
           direction: 'desc'
-          per_page: 1
+          per_page: 10
           state: 'closed'
         }, callback
       catch e
@@ -62,7 +62,11 @@ module.exports = (robot) ->
     do ->
       getPullRequests (err, res)->
         return msg.reply err.message if err
-        unless issue = res[0]
+        for pr in res
+          if new RegExp("^\\d{4}\\.\\d{2}\\.\\d{2} #{env} deployment by \\w+$").test(pr.title)
+            issue = pr
+            break
+        unless issue
           msg.reply "No deploy pull request for #{env}."
           return
         try
