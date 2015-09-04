@@ -11,5 +11,6 @@ module.exports = (robot) ->
   robot.router.post '/webhooks/dockerhub', (req, res) ->
     {push_data} = {repository} = req.body
     {pusher} = push_data
-    {repo_name} = repository
-    robot.send { room: 'dev_infra' }, "New image for `#{repo_name}` was pushed by #{pusher}"
+    {repo_name, repo_url} = repository
+    robot.send { room: 'dev_infra' }, "New image for `#{repo_name}` was pushed by #{pusher} #{repo_url}"
+    res.end 'OK'

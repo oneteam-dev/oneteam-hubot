@@ -43,7 +43,7 @@ describe 'dockerhub webhook', ->
     adapter.on 'send', (envelope, strings)->
       try
         expect(strings[0]).to.equal """
-        New image for `oneteam/base-ubuntu` was pushed by oneteamadmin
+        New image for `oneteam/base-ubuntu` was pushed by oneteamadmin https://registry.hub.docker.com/u/oneteam/base-ubuntu/
         """
         do done
       catch e
