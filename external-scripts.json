@@ -1,6 +1,7 @@
 [
   "hubot-reviewer-lotto",
   "hubot-alias",
+  "hubot-circleci",
   "hubot-diagnostics",
   "hubot-help",
   "hubot-heroku-keepalive",
