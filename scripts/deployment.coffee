@@ -41,11 +41,8 @@ module.exports = (robot) ->
     user ||= process.env.HUBOT_GITHUB_ORG
 
     if env is 'production'
-      head = 'deployment/staging'
-      base = 'deployment/production'
-    else if env is 'staging'
       head = 'master'
-      base = 'deployment/staging'
+      base = 'deployment/production'
     else
       msg.reply "I don't know such an environment: `#{env}`."
       return
