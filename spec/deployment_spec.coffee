@@ -73,16 +73,16 @@ describe 'deployment', ->
       sinon.stub(robot.getGitHubApi().repos, 'compareCommits').callsArgWith 1, null, { commits: [] }
       adapter.on 'send', (envelope, strings) ->
         try
-          expect(strings[0]).to.equal 'Creating pull request: `master` to `deployment/staging` of https://github.com/oneteam-dev/oneteam-api'
+          expect(strings[0]).to.equal 'Creating pull request: `master` to `deployment/production` of https://github.com/oneteam-dev/oneteam-api'
         catch e
           done e
       adapter.on 'reply', (envelope, strings) ->
         try
-          expect(strings[0]).to.equal 'staging environment is up to date.'
+          expect(strings[0]).to.equal 'production environment is up to date.'
           do done
         catch e
           done e
-      adapter.receive new TextMessage user, 'TestHubot deploy oneteam-api to staging'
+      adapter.receive new TextMessage user, 'TestHubot deploy oneteam-api to production'
 
     testDeploy = (head, base, env) ->
       (done) ->
@@ -166,6 +166,5 @@ describe 'deployment', ->
             done e
         adapter.receive new TextMessage user, "TestHubot deploy oneteam-api to #{env}"
 
-    it 'should create a pull request for staging', testDeploy('master', 'deployment/staging', 'staging')
-    it 'should create a pull request for production', testDeploy('deployment/staging', 'deployment/production', 'production')
+    it 'should create a pull request for production', testDeploy('master', 'deployment/production', 'production')
 
