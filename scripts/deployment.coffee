@@ -40,12 +40,16 @@ module.exports = (robot) ->
     [user, repo] = repo.split '/' if repo.indexOf('/') != -1
     user ||= process.env.HUBOT_GITHUB_ORG
 
-    if env is 'production'
-      head = 'master'
-      base = 'deployment/production'
-    else
-      msg.reply "I don't know such an environment: `#{env}`."
-      return
+    switch env
+      when 'production'
+        head = 'deployment/staging'
+        base = 'deployment/production'
+      when 'staging'
+        head = 'master'
+        base = 'deployment/staging'
+      else
+        msg.reply "I don't know such an environment: `#{env}`."
+        return
 
     compareCommits { user, repo, base, head }, (err, data) ->
       return if robot.respondError msg, err
