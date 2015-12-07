@@ -166,5 +166,6 @@ describe 'deployment', ->
             done e
         adapter.receive new TextMessage user, "TestHubot deploy oneteam-api to #{env}"
 
-    it 'should create a pull request for production', testDeploy('master', 'deployment/production', 'production')
+    it 'should create a pull request for staging', testDeploy('master', 'deployment/staging', 'staging')
+    it 'should create a pull request for production', testDeploy('deployment/staging', 'deployment/production', 'production')
 
