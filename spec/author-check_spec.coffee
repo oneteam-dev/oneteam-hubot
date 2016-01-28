@@ -69,7 +69,7 @@ describe 'author-check', ->
         try
           expect(strings).to.deep.equal ["""
           TestHubot ask checking <repo> on {staging,production} - Please check operation of <env> env.
-          TestHubot help - Displays all of the help commands that TestHubot knows about.
+          TestHubot help - Displays all of the help commands that Hubot knows about.
           TestHubot help <query> - Displays all help commands that match <query>.
           """]
           do done
@@ -109,5 +109,3 @@ describe 'author-check', ->
               console.error e
               done e
           adapter.receive new TextMessage user, 'testhubot  ask   checking  oneteam-api   on   staging  '
-
-

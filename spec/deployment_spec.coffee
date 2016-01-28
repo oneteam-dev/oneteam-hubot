@@ -51,7 +51,7 @@ describe 'deployment', ->
         try
           expect(strings[0]).to.equal """
           TestHubot deploy <repo> to <env> - deploy <repo> to the specified environment
-          TestHubot help - Displays all of the help commands that TestHubot knows about.
+          TestHubot help - Displays all of the help commands that Hubot knows about.
           TestHubot help <query> - Displays all help commands that match <query>.
           """
           do done
@@ -168,4 +168,3 @@ describe 'deployment', ->
 
     it 'should create a pull request for staging', testDeploy('master', 'deployment/staging', 'staging')
     it 'should create a pull request for production', testDeploy('deployment/staging', 'deployment/production', 'production')
-
