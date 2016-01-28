@@ -57,7 +57,7 @@ module.exports = (robot) ->
   robot.respond /\s*(jobcan|打刻)/, (res) ->
     {envelope} = res
     return unless (username = envelope.user.name)
-    envName = "HUBOT_JOBCAN_#{username.toUpperCase().replace(/([_\-\.])/g, '_')}"
+    envName = "HUBOT_JOBCAN_#{username.toUpperCase().replace(/([^0-9A-Z])/g, '_')}"
     password = process.env["#{envName}_PASSWORD"]
     login = process.env["#{envName}_LOGIN"]
     groupId = process.env["#{envName}_GROUP_ID"]
