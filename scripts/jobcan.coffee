@@ -89,4 +89,4 @@ module.exports = (robot) ->
       return
     adit login, password, groupId, (msg, success) ->
       res.send msg
-      robot.send { room: 'ngs-playground-privat' }, "#{username} #{msg}"
+      robot.send { room: 'attendance_notice' }, "#{username} #{msg}"
