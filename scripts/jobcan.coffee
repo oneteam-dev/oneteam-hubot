@@ -76,3 +76,17 @@ module.exports = (robot) ->
 
     adit login, password, groupId, (msg, success) ->
       res.reply msg
+
+  robot.router.post '/hooks/jobcan/:username', (req, res) ->
+    {username} = req.params
+    envName = "HUBOT_JOBCAN_#{username.toUpperCase().replace(/([^0-9A-Z])/g, '_')}"
+    password = process.env["#{envName}_PASSWORD"]
+    login = process.env["#{envName}_LOGIN"]
+    groupId = process.env["#{envName}_GROUP_ID"]
+    unless password and login and groupId
+      res.status 400
+      res.send 'Bad Request'
+      return
+    adit login, password, groupId, (msg, success) ->
+      res.send msg
+      robot.send { room: 'ngs-playground-privat' }, "#{username} #{msg}"
