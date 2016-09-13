@@ -28,9 +28,9 @@ module.exports = (robot) ->
 
     switch env
       when 'production'
-        triggerBuild(env, 'deployment/production', msg)
+        triggerBuild(env, 'production', msg)
       when 'staging'
-        triggerBuild(env, 'master', msg)
+        triggerBuild(env, 'staging', msg)
       else
         msg.reply "I don't know such an environment: `#{env}`."
         return
