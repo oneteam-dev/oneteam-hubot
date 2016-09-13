@@ -1,26 +1,29 @@
 # Description:
-#   e2e ${ENV}
+#   Start E2E tests
 #
 # Configuration
-#   HUBOT_CIRCLE_CI_TOKEN
+#   HUBOT_CIRCLECI_TOKEN
 #
 # Commands:
-#   hubot comuque test <env>
+#   hubot e2e <env>
 
 request = require 'request'
 
 
-CIRCLE_TOKEN = process.env.HUBOT_CIRCLE_CI_TOKEN
+CIRCLE_TOKEN = process.env.HUBOT_CIRCLECI_TOKEN
 
 url = (branch) ->
  "https://circleci.com/api/v1/project/oneteam-dev/comuque-e2e-test/tree/#{branch}?circle-token=#{CIRCLE_TOKEN}"
 
 triggerBuild = (env, branch, msg) ->
-  request.post { url: url(branch) }, (err, httpResponse, body) ->
-    if err
+  request.post { url: url(branch), json: yes }, (err, httpResponse, body) ->
+    {message, build_url} = body
+    if message
+      msg.reply message
+    else if err
       msg.reply 'Failed to trigger build'
     else
-      msg.reply "Triggered E2E test on #{env}"
+      msg.reply "Triggered E2E test on #{env} #{build_url}"
 
 module.exports = (robot) ->
   robot.respond /\s*e2e\s+([^\s]+)/, (msg) ->
