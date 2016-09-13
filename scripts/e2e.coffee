@@ -1,5 +1,5 @@
 # Description:
-#   comuque e2e test
+#   e2e ${ENV}
 #
 # Configuration
 #   HUBOT_CIRCLE_CI_TOKEN
@@ -23,7 +23,7 @@ triggerBuild = (env, branch, msg) ->
       msg.reply "Triggered E2E test on #{env}"
 
 module.exports = (robot) ->
-  robot.respond /\s*comuque\stest\s([^\s]+)/, (msg) ->
+  robot.respond /\s*e2e\s+([^\s]+)/, (msg) ->
     [__, env] = msg.match
 
     switch env
