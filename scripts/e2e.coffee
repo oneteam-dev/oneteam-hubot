@@ -16,7 +16,13 @@ url = (branch) ->
  "https://circleci.com/api/v1/project/oneteam-dev/comuque-e2e-test/tree/#{branch}?circle-token=#{CIRCLE_TOKEN}"
 
 triggerBuild = (env, branch, msg) ->
-  request.post { url: url(branch), json: yes }, (err, httpResponse, body) ->
+  { room, user } = msg.envelope || {}
+  userId = user?.id
+  build_parameters = {
+    SLACK_ROOM_ID: room
+    SLACK_USER_ID: userId
+  }
+  request.post { url: url(branch), json: { build_parameters } }, (err, httpResponse, body) ->
     {message, build_url} = body
     if message
       msg.reply message
