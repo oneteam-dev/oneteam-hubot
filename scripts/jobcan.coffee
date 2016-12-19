@@ -81,6 +81,7 @@ module.exports = (robot) ->
     {username} = req.params
     envName = "HUBOT_JOBCAN_#{username.toUpperCase().replace(/([^0-9A-Z])/g, '_')}"
     password = process.env["#{envName}_PASSWORD"]
+    room = process.env["#{envName}_ROOM"] || 'C0671U5V0'
     login = process.env["#{envName}_LOGIN"]
     groupId = process.env["#{envName}_GROUP_ID"]
     unless password and login and groupId
@@ -89,4 +90,4 @@ module.exports = (robot) ->
       return
     adit login, password, groupId, (msg, success) ->
       res.send msg
-      robot.send { room: 'C0671U5V0' }, "<@#{username}> #{msg}"
+      robot.send { room }, "<@#{username}> #{msg}"
