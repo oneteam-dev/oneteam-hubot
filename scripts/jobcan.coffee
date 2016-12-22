@@ -41,6 +41,7 @@ adit = (login, password, groupId, expected, callback) ->
       jar: jar
     }, (err, res, body) ->
       currentStatus = body.match(/var current_status = "(working|resting)";/)?[1]
+      token = body.match(/<input type="hidden" class="token" name="token" value="([^"]+)"/)?[1]
       if currentStatus is expected
         msg = STATUS_MSG[currentStatus]
         callback "既に#{msg}に設定されています", no
@@ -49,6 +50,7 @@ adit = (login, password, groupId, expected, callback) ->
           is_yakin: '0'
           adit_item: 'DEF'
           notice: ''
+          token: token
           adit_group_id: groupId
         }
       }, (err, httpResponse, body) ->
