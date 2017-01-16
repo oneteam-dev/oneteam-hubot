@@ -7,7 +7,7 @@
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register spec",
     "watch": "gulp watch",
-    "start": "EXPRESS_PORT=8022 ./bin/hubot -a slack"
+    "start": "EXPRESS_PORT=8022 ./bin/hubot -a oneteam"
   },
   "dependencies": {
     "cson-parser": "^1.1.1",
@@ -26,17 +26,19 @@
     "hubot-heroku-keepalive": "0.0.4",
     "hubot-keybase": "^0.1.0",
     "hubot-maps": "0.0.2",
+    "hubot-oneteam": "https://github.com/oneteam-dev/hubot-oneteam#master",
     "hubot-pugme": "^0.1.0",
     "hubot-redis-brain": "0.0.3",
     "hubot-reviewer-lotto": "^0.7.0",
     "hubot-rules": "^0.1.1",
     "hubot-scripts": "^2.16.2",
     "hubot-shipit": "^0.2.0",
-    "request": "^2.69.0",
-    "hubot-slack": "slackhq/hubot-slack#v3-sdk-updates"
+    "npm": "^4.1.1",
+    "request": "^2.69.0"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "4.1.x",
+    "npm": "^4.1.1"
   },
   "devDependencies": {
     "chai": "^3.0.0",

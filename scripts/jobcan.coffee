@@ -69,7 +69,7 @@ adit = (login, password, groupId, expected, callback) ->
 module.exports = (robot) ->
   robot.respond /\s*(jobcan|打刻)(?:\s+([^\s]+))?/, (res) ->
     {envelope, match} = res
-    return unless (username = match[2] || envelope.user.name)
+    return unless (username = match[2] || envelope.user.id)
     envName = "HUBOT_JOBCAN_#{username.toUpperCase().replace(/([^0-9A-Z])/g, '_')}"
     password = process.env["#{envName}_PASSWORD"]
     login = process.env["#{envName}_LOGIN"]

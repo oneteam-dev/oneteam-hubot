@@ -84,7 +84,7 @@ module.exports = (robot) ->
           users.push login
 
         unless commit.parents.length > 1
-          messages.push "- #{users[0] + ':' if users[0]} #{commitMessage}"
+          messages.push "- #{users[0] + ':' if users[0]} #{commitMessage.replace(/\n/g, ' ')}"
 
         if m = commitMessage?.match /GH\-(\d+)|#(\d+)/ig
           for i in m
@@ -99,7 +99,9 @@ module.exports = (robot) ->
            noIssueCommits.push { users, title: "#{commit.sha} #{commitMessage}" }
       msg.send """
       Creating pull request: `#{head}` to `#{base}` of https://github.com/#{user}/#{repo}
-      #{messages.length} update#{ if messages.length then 's are' else ' is' } going to be deployed:
+
+      ### #{messages.length} update#{ if messages.length then 's are' else ' is' } going to be deployed
+
       #{messages.join '\n'}
       """
 
@@ -136,4 +138,3 @@ module.exports = (robot) ->
           Continue deployment by merging manually or close to cancel.
           You can check build status on #{ciURL}
           """
-
