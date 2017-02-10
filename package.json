@@ -33,7 +33,7 @@
     "hubot-scripts": "^2.16.2",
     "hubot-shipit": "^0.2.0",
     "request": "^2.69.0",
-    "hubot-slack": "slackhq/hubot-slack#v3-sdk-updates"
+    "hubot-slack": "4.3.1"
   },
   "engines": {
     "node": "0.10.x"
