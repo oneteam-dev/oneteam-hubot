@@ -13,7 +13,7 @@
 request = require 'request'
 
 TOP_URL = 'https://ssl.jobcan.jp/employee'
-LOGIN_URL = 'https://ssl.jobcan.jp/login/pc-employee'
+LOGIN_URL = 'https://ssl.jobcan.jp/login/pc-employee/old'
 ADIT_URL = 'https://ssl.jobcan.jp/employee/index/adit'
 CLIENT_ID = process.env.HUBOT_JOBCAN_CLIENT_ID
 
@@ -32,7 +32,7 @@ adit = (login, password, groupId, expected, callback) ->
       login_type: 1
     }
   }, (err, httpResponse, body) ->
-    if httpResponse?.headers?.location?.indexOf('/login/pc-employee/') >= 0
+    if httpResponse?.headers?.location?.indexOf('/login/pc-employee/old') >= 0
       callback 'Failed to login', no
       return
     console.info 'Login succeeded'
